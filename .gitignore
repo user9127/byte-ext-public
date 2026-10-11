@@ -1,0 +1,5 @@
+# Build intermediates / staging. Release artifacts live only on GitHub Releases.
+*.pdb
+*.obj
+*.ilk
+release/
