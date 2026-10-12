@@ -1,26 +1,27 @@
 # byte-ext-public
 
-Public distribution for **Byte External** — launcher, installer, and UI package.
+Public distribution for **Byte External**: installer, launcher and payload.
 
 Downloads are published as GitHub Releases (`v<version>` tag) with these artifacts:
 
 | Artifact | Role |
 | --- | --- |
-| `ByteExtInstaller.exe` | One-time installer. Installs to `%LOCALAPPDATA%\ByteExternal`, downloads the current launcher, UI, and payload, verifies SHA-256, creates shortcuts, and installs the WebView2 runtime if missing. Reusable across future releases — no rebuild needed. |
-| `ByteExternalLauncher.exe` | Launcher. WebView2 host, key / login / register / settings / community UI. Handles auth against byte-license and spawns the payload with a one-shot launch token. Auto-updates itself, the UI, and the payload against `https://api.projectbyte.cc/version`. |
-| `ByteExternal.exe` | Payload. The actual external Roblox companion. Refuses to run without `--launch-token=…` — launch via the launcher. |
-| `byte-external-ui-<version>.zip` | UI package. HTML/CSS/JS the launcher serves to its embedded WebView2. Versioned filename so caches don't lie. |
-| `SHA256SUMS` | Checksums for the four files above. |
+| `ByteExtInstaller.exe` | One-time installer. Installs to `%LOCALAPPDATA%\ByteExternal`, downloads the current launcher and payload, verifies SHA-256, installs the WebView2 Runtime if missing, creates shortcuts and an Apps entry with an uninstaller. Reusable across future releases, no rebuild needed. |
+| `ByteExternalLauncher.exe` | Launcher. WebView2 window with its UI built into the exe (sign in, license key, create account, launch, settings, controls). Signs in against byte-license and starts the payload with a one-shot launch token. Updates itself and the payload from `https://api.projectbyte.cc/version`. |
+| `ByteExternal.exe` | Payload. The external Roblox companion. Refuses to run without `--launch-token=...`, so start it from the launcher. |
+| `SHA256SUMS` | Checksums for the three files above. |
 
-The authoritative version metadata lives in `https://api.projectbyte.cc/version` — see fields `external_version`, `launcher_url`, `external_url`, `ui_url`, and the matching `*_sha256`s. The installer and the launcher both fetch that manifest at runtime; no URL or hash is baked in.
+Since 1.0.1 the launcher UI ships inside `ByteExternalLauncher.exe`, so there is no separate UI zip. The 1.0.0 release still carries `byte-external-ui-1.0.0.zip` for launchers that were installed with it.
+
+The authoritative version metadata lives in `https://api.projectbyte.cc/version` (fields `external_version`, `launcher_version`, `external_url`, `launcher_url` and the matching `*_sha256`). The installer and the launcher both fetch it at runtime; no URL or hash is baked in.
 
 ## Downloads
 
-The latest release is tagged **v1.0.0**:
+The latest release is tagged **v1.0.1**:
 
 - https://github.com/user9127/byte-ext-public/releases/latest
 
-Users typically only need `ByteExtInstaller.exe`.
+Users only need `ByteExtInstaller.exe`. Anyone still on 1.0.0 should run the new installer once; the 1.0.0 launcher can't replace itself.
 
 ## Verifying a download
 
@@ -32,7 +33,7 @@ Compare the hash to the matching line in `SHA256SUMS` or in the `api.projectbyte
 
 ## Source
 
-Launcher, installer, UI, and payload source live in the private `byte-private` repository under `byte-external/` and `byte-ext-build/`. This repository hosts the built binaries only.
+Launcher, installer and payload source live in the private `byte-private` repository under `byte-ext-build/` and `byte-external/`. This repository hosts the built binaries only.
 
 ## Community
 
